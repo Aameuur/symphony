@@ -1,0 +1,47 @@
+/* Adjusted CSS to match React styling */
+
+/* Center the form */
+.registration-form {
+  margin-top: 110px;
+  margin-left: 500px;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  padding: 5px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.534);
+ 
+}
+
+/* Style form inputs and labels */
+label {
+  font-weight: bold;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="checkbox"] {
+  width: calc(100% - 30px); /* Adjust width as needed */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width */
+}
+
+/* Style submit button */
+.registration-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Optional: Style error messages */
+.form-error {
+  color: red;
+  margin-top: 5px;
+  font-size: 12px;
+}

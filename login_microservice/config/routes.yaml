@@ -1,0 +1,19 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+login:
+    path: /login
+    controller: App\Controller\AuthController::login
+app_homepage:
+    path: /home
+    controller: App\Controller\HomeController::index
+dashboard:
+    path: /dashboard
+    controller: App\Controller\DashboardController::index
+edit_user:
+    path: /api/user/edit/{id}
+    controller: App\Controller\UserController::edit
+    methods: [PUT, POST]
+

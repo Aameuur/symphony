@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper {
+        margin: 1em auto;
+        max-width: 800px;
+        width: 95%;
+        font: 18px/1.5 sans-serif;
+    }
+    .example-wrapper code {
+        background: #F5F5F5;
+        padding: 2px 6px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: #333; /* Background color for table */
+        color: #fff; /* Default text color for table content */
+    }
+    table, th, td {
+        border: 1px solid #444; /* Dark border */
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #555; /* Background color for table headers */
+        color: #fff; /* Text color for table headers */
+    }
+    td {
+        color: #fff; /* Text color for table data cells */
+    }
+    tbody tr:nth-child(odd) {
+        background-color: #444; /* Background color for odd rows */
+    }
+    tbody tr:nth-child(even) {
+        background-color: #555; /* Background color for even rows */
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .dashboard-title {
+        color: #007bff; /* Custom color for the dashboard title */
+        font-size: 24px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="example-wrapper">
+    <h2 class="dashboard-title">List of Users</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles|join(', ') }}</td> <!-- Ensure roles are joined correctly -->
+                    <td>
+                        <a href="{{ path('edit_user_form', { 'id': user.id }) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-sm" onclick="deleteUser({{ user.id }})">Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        fetch(`/api/user/delete/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('User deleted successfully');
+                window.location.reload();
+            } else {
+                alert('Failed to delete user');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+</script>
+{% endblock %}
