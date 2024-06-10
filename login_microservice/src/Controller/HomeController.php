@@ -31,4 +31,14 @@ class HomeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/new-home', name: 'app_new_home')]
+    public function newHome(): Response
+    {
+        $form = $this->createForm(DeliveryFormType::class);
+        return $this->render('home/Delivery.html.twig', [
+            'controller_name' => 'HomeController',
+            'form' => $form->createView(),
+        ]);
+    }
 }

@@ -1,3 +1,4 @@
+{# templates/registration/register.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
@@ -5,126 +6,163 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
-    
-    
-   body{
-    
-    
-  background-image: url('https://wallpapercave.com/wp/wp3006080.jpg');
-   background-size: cover;
-}
-
-        /* CSS styles directly embedded in the Twig template */
-        .registration-form {
-            background-color: rgba(255, 255, 255, 0.2);
-            margin-top: 110px;
-  margin-left: 315px;
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  padding: 10px;
-  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.3);
-  border:1px solid transparent;
-  border-radius:5px;
+        body {
+            background-image: url('https://wallpapercave.com/wp/wp3006080.jpg');
+            background-size: cover;
+            background-attachment: fixed;
         }
- 
-        input[type="email"],
-        input[type="password"], {
-            color: #fff;
-            width: 300px; 
+
+        .registration-form {
+            background-color: rgba(255, 255, 255, 0.3);
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 500px;
             padding: 20px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .registration-form h1, .registration-form p {
+            text-align: center;
+            color: #007bff;
+        }
+
+        .registration-form h1 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #007bff;
             border-radius: 5px;
-            box-sizing: border-box; 
-            gap:10px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #0056b3;
+        }
+
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: transparent;
+            color: white;
+        }
+
+        .form-group option {
+            background-color: #fff;
+            color: #000;
         }
 
         .registration-form button {
-            width: 30%;
+            width: 100%;
             padding: 10px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-left:165px;
-            margin-top:10px;
+            font-size: 16px;
         }
-        .registration-form input::placeholder {
-    color: white; /* Change the color to your desired color */
-}
-        .inputWithIcon{
-            gap:5px;
+
+        .registration-form button:hover {
+            background-color: #0056b3;
         }
-        /* Style images */
-        .user-icon {
-            width: 100px; /* Adjust width as needed */
-            margin-left: 200px; /* Adjust margin as needed */
-        }
-        h1{
-            font-size:45px; 
-            text-align:center;
-            color:#007bff;
-        }
-        p{
-        text-align:center;
-          color:#007bff;
-        }
-        .email-icon,
-        .password-icon {
-            width: 28px; /* Adjust width as needed */
-            margin-right: 10px; /* Adjust margin as needed */
-            margin-top:5px;
-        }
-          .inputWithIcon{
-            display:flex;
-            flex-direction:row;
-           justify-content:center;
-           align-items:center;
-           
-        }
-        .inputWithIcon1{
-            margin-top:20px;
-          display:flex;
-            flex-direction:row;
-           justify-content:center;
-           align-items:center;
-        }
-        label{
-            margin-left:115px;
-            color:white;
-        }
-        /* Optional: Style error messages */
+
         .form-error {
             color: red;
             margin-top: 5px;
             font-size: 12px;
-        } 
+        }
+
+        h1 {
+            font-size: 45px;
+            text-align: center;
+            color: #007bff;
+        }
+
+        p {
+            text-align: center;
+            color: #007bff;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
     <div class="registration-form">
-       
         <h1>Register</h1>
-        <p>Enter your credentiels.</p>
+        <p>Enter your credentials.</p>
         {{ form_errors(registrationForm) }}
 
         {{ form_start(registrationForm) }}
-            <div class="inputWithIcon">
-              <img class="email-icon" src="{{ asset('images/email-icon.png') }}" alt="Email Icon">
-              {{ form_widget(registrationForm.email, {'attr': {'style': 'width: 300px; height: 30px;background-color:transparent;border:solid 1px #007bff;padding:5px; border-radius: 5px;','placeholder': 'Enter your email'}}) }}
+            <div class="form-group">
+                {{ form_label(registrationForm.email, 'Email') }}
+                {{ form_widget(registrationForm.email) }}
             </div>
 
-            <div class="inputWithIcon1">
-                <img class="password-icon" src="{{ asset('images/password-icon.jpg') }}" alt="Password Icon">
-                {{ form_widget(registrationForm.plainPassword, {'attr': {'style': 'width: 300px; height: 30px;background-color:transparent;border:solid 1px #007bff;padding:5px; border-radius: 5px; ', 'placeholder': 'Enter your password'}}) }}
+            <div class="form-group">
+                {{ form_label(registrationForm.firstName, 'First Name') }}
+                {{ form_widget(registrationForm.firstName) }}
+            </div>
 
-              </div>
-             {{ form_row(registrationForm.agreeTerms,{'attr': {'style': 'margin-top:20px;margin-left:10px;'}}) }}
+            <div class="form-group">
+                {{ form_label(registrationForm.lastName, 'Last Name') }}
+                {{ form_widget(registrationForm.lastName) }}
+            </div>
 
-             <button type="submit" class="btn">Register</button>
-              {{ form_end(registrationForm) }}
-             </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.cin, 'CIN') }}
+                {{ form_widget(registrationForm.cin) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(registrationForm.address, 'Address') }}
+                {{ form_widget(registrationForm.address) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(registrationForm.numTel, 'Phone Number') }}
+                {{ form_widget(registrationForm.numTel) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(registrationForm.dateNaissance, 'Birth Date') }}
+                {{ form_widget(registrationForm.dateNaissance) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(registrationForm.genre, 'Gender') }}
+                {{ form_widget(registrationForm.genre) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(registrationForm.plainPassword, 'Password') }}
+                {{ form_widget(registrationForm.plainPassword) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(registrationForm.agreeTerms) }}
+                {{ form_label(registrationForm.agreeTerms, 'I agree to the terms and conditions') }}
+            </div>
+
+            <button type="submit">Register</button>
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

@@ -3,29 +3,134 @@
 {% block title %}Edit User{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1>Edit User</h1>
-    
-    {{ form_start(form, {'action': path('edit_user', {'id': user.id}), 'method': 'POST'}) }}
-        <div class="form-group">
-            {{ form_label(form.email) }}
-            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.email) }}
-        </div>
-        <div class="form-group">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #007bff;
+            background-color: #ffffff;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <div class="form-container">
+        <h1>Edit User</h1>
+
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+            <div class="form-group">
             {{ form_label(form.roles) }}
-            {{ form_widget(form.roles) }}
+            <div>
+                {% for role in form.roles %}
+                    <div class="form-check">
+                        {{ form_widget(role, {'attr': {'class': 'form-check-input role-checkbox'}}) }}
+                        {{ form_label(role, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                {% endfor %}
+            </div>
             {{ form_errors(form.roles) }}
         </div>
-        <div class="form-group">
-            {{ form_label(form.password) }}
-            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.password) }}
-        </div>
-        <input type="hidden" name="_method" value="PUT"/>
-        <button class="btn btn-primary">Save changes</button>
-    {{ form_end(form) }}
+            
+            <div class="form-group">
+                {{ form_label(form.password) }}
+                {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.password) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.firstName) }}
+                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.firstName) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.lastName) }}
+                {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.lastName) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.cin) }}
+                {{ form_widget(form.cin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.cin) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.address) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.numTel) }}
+                {{ form_widget(form.numTel, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.numTel) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.dateNaissance) }}
+                {{ form_widget(form.dateNaissance, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateNaissance) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.genre) }}
+                {{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.genre) }}
+            </div>
 
-    <a href="{{ path('dashboard') }}" class="btn btn-secondary mt-3">Back to list</a>
-</div>
+            <button class="btn btn-primary">Save</button>
+        {{ form_end(form) }}
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleCheckboxes = document.querySelectorAll('.role-checkbox');
+        roleCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    roleCheckboxes.forEach(box => {
+                        if (box !== this && box.value !== this.value) {
+                            box.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

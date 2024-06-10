@@ -77,7 +77,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST'])]
+    /* #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST'])]
     public function edit(Request $request, User $user): JsonResponse
     {
         $form = $this->createForm(UserType::class, $user);
@@ -100,8 +100,67 @@ class UserController extends AbstractController
 
         $errors = $this->getFormErrors($form);
         return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+    } */
+/* 
+    #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST'])]
+    public function edit(Request $request, User $user): JsonResponse
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $roles = $form->get('roles')->getData();
+            if (count($roles) > 1) {
+                return new JsonResponse('Only one role can be assigned to a user.', Response::HTTP_BAD_REQUEST);
+            }
+
+            $user->setRoles($roles);
+            $plainPassword = $form->get('password')->getData();
+            if ($plainPassword) {
+                $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
+            }
+            $this->entityManager->flush();
+
+            return new JsonResponse('User updated successfully', Response::HTTP_OK);
+        }
+
+        $errors = $this->getFormErrors($form);
+        return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+    } */
+
+    #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST', 'GET'])]
+public function edit(Request $request, User $user): Response
+{
+    $form = $this->createForm(UserType::class, $user);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $roles = $form->get('roles')->getData();
+        if (count($roles) > 1) {
+            return new JsonResponse('Only one role can be assigned to a user.', Response::HTTP_BAD_REQUEST);
+        }
+
+        $user->setRoles($roles);
+        $plainPassword = $form->get('password')->getData();
+        if ($plainPassword) {
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+            $user->setPassword($hashedPassword);
+        }
+        $this->entityManager->flush();
+
+        // Redirect to the same page
+        return $this->redirectToRoute('dashboard', ['id' => $user->getId()]);
     }
 
+    $errors = $this->getFormErrors($form);
+    return $this->render('home/edit.html.twig', [
+        'form' => $form->createView(),
+        'errors' => $errors,
+    ]);
+}
+
+    
     #[Route('/delete/{id}', name: 'delete_user', methods: ['DELETE'])]
     public function delete(User $user): JsonResponse
     {

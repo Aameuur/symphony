@@ -30,26 +30,31 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}">Home</a>
+                    <a class="nav-link" href="{{ path('app_new_home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('dashboard') }}">Dashboard</a>
+                    <a class="nav-link" href="{{ path('app_home') }}">Planning</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('dashboard') }}">Dashboard</a>
+                    </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto">
                 {% if app.user %}
                     <li class="nav-item">
-                        <span class="nav-link">Welcome, {{ app.user.email }}</span>
+                        <span class="nav-link">Welcome, {{ app.user.firstName }}</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                        <a class="nav-link" id="logout-link" href="{{ path('app_logout') }}">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                        <a class="nav-link" href="{{ path('app_login') }}">Sign In</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_register') }}">Sign In</a>
+                        <a class="nav-link" href="{{ path('app_register') }}">Sign Up</a>
                     </li>
                 {% endif %}
             </ul>
@@ -62,6 +67,13 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            document.getElementById('logout-link').addEventListener('click', function(event) {
+                if (!confirm('Are you sure you want to logout?')) {
+                    event.preventDefault();
+                }
+            });
+        </script>
     {% endblock %}
 </body>
 </html>

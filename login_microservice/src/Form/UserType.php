@@ -5,8 +5,10 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\User;
@@ -25,10 +27,37 @@ class UserType extends AbstractType
                     'User' => 'ROLE_USER',
                 ],
                 'expanded' => true,
-                'multiple' => true,  // Allow multiple roles to be selected
+                'multiple' => true, // Allow multiple roles to be selected
             ])
             ->add('password', PasswordType::class, [
                 'required' => false, // Allow the password to be optional if not changing it
+            ])
+            ->add('firstName', TextType::class, [
+                'required' => true,
+            ])
+            ->add('lastName', TextType::class, [
+                'required' => true,
+            ])
+            ->add('cin', TextType::class, [
+                'required' => true,
+            ])
+            ->add('address', TextType::class, [
+                'required' => true,
+            ])
+            ->add('numTel', TextType::class, [
+                'required' => true,
+            ])
+            ->add('dateNaissance', DateType::class, [
+                'widget' => 'single_text',
+                'required' => true,
+            ])
+            ->add('genre', ChoiceType::class, [
+                'choices' => [
+                    'Male' => 'Male',
+                    'Female' => 'Female',
+                    
+                ],
+                'required' => true,
             ]);
     }
 
