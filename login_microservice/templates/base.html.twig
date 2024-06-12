@@ -29,11 +29,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
+                
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_new_home') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}">Planning</a>
+                    <a class="nav-link" href="{{ path('agent') }}">Planning</a>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">

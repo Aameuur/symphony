@@ -16,6 +16,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_AGENT = 'ROLE_AGENT';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

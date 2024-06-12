@@ -77,6 +77,15 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/edit/{id}', name: 'Planing_Agent', methods: ['GET'])]
+    public function planingForm(User $user): Response
+    {
+        // Render the edit form
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
+            'form' => $this->createForm(UserType::class, $user)->createView(),
+        ]);
+    }
     /* #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST'])]
     public function edit(Request $request, User $user): JsonResponse
     {

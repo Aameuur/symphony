@@ -1,0 +1,92 @@
+{# templates/planning/create.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Planning{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Form container */
+        .form-container {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        /* Form title */
+        .form-title {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        /* Form fields */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Form labels */
+        .form-label {
+            font-weight: bold;
+            color: #000; /* Changed to black */
+        }
+
+        /* Form input fields */
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000; /* Changed to black */
+        }
+
+        /* Submit button */
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-container">
+                    <h1 class="form-title">Create Planning</h1>
+                    {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_label(form.deliveryDate, 'Delivery Date and Time', {'class': 'form-label'}) }}
+                        {{ form_widget(form.deliveryDate, {'attr': {'class': 'form-control datetimepicker'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.deliveryAddress, 'Delivery Address', {'class': 'form-label'}) }}
+                        {{ form_widget(form.deliveryAddress, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.description, 'Description', {'class': 'form-label'}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary submit-btn">Save</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>  
+        </div>
+    </div>
+{% endblock %}
