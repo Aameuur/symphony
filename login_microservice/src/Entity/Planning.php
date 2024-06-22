@@ -16,17 +16,20 @@ class Planning
     private $id;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'agent_id', referencedColumnName: 'id', nullable: false)]
     private $agent;
 
     #[ORM\Column(type: 'datetime')]
     private $deliveryDate;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $description;
+    private $reference;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $deliveryAddress;
+
+    #[ORM\Column(type: 'string', nullable: true)] 
+    private $postalCode; 
 
     public function getId(): ?int
     {
@@ -57,14 +60,14 @@ class Planning
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getReference(): ?string
     {
-        return $this->description;
+        return $this->reference;
     }
 
-    public function setDescription(?string $description): self
+    public function setReference(?string $reference): self
     {
-        $this->description = $description;
+        $this->reference = $reference;
 
         return $this;
     }
@@ -77,6 +80,18 @@ class Planning
     public function setDeliveryAddress(?string $deliveryAddress): self
     {
         $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string // Add this getter
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(?string $postalCode): self // Add this setter
+    {
+        $this->postalCode = $postalCode;
 
         return $this;
     }
