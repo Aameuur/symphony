@@ -30,7 +30,7 @@ class UserController extends AbstractController
         $this->validator = $validator;
         $this->passwordHasher = $passwordHasher;
     }
-
+ 
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): JsonResponse
     {
