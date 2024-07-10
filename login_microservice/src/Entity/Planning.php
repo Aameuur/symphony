@@ -1,5 +1,4 @@
 <?php
-
 // src/Entity/Planning.php
 
 namespace App\Entity;
@@ -25,12 +24,28 @@ class Planning
     #[ORM\Column(type: 'text', nullable: true)]
     private $reference;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $departAddress;
+
+    #[ORM\Column(type: 'string')]
     private $deliveryAddress;
 
-    #[ORM\Column(type: 'string', nullable: true)] 
-    private $postalCode; 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $departLongitude;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $departLatitude;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $deliveryLongitude;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $deliveryLatitude;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $description;
+
+    // Getters and Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -44,7 +59,6 @@ class Planning
     public function setAgent(?User $agent): self
     {
         $this->agent = $agent;
-
         return $this;
     }
 
@@ -56,7 +70,6 @@ class Planning
     public function setDeliveryDate(\DateTimeInterface $deliveryDate): self
     {
         $this->deliveryDate = $deliveryDate;
-
         return $this;
     }
 
@@ -68,7 +81,17 @@ class Planning
     public function setReference(?string $reference): self
     {
         $this->reference = $reference;
+        return $this;
+    }
 
+    public function getDepartAddress(): ?string
+    {
+        return $this->departAddress;
+    }
+
+    public function setDepartAddress(?string $departAddress): self
+    {
+        $this->departAddress = $departAddress;
         return $this;
     }
 
@@ -80,19 +103,61 @@ class Planning
     public function setDeliveryAddress(?string $deliveryAddress): self
     {
         $this->deliveryAddress = $deliveryAddress;
-
         return $this;
     }
 
-    public function getPostalCode(): ?string // Add this getter
+    public function getDepartLongitude(): ?string
     {
-        return $this->postalCode;
+        return $this->departLongitude;
     }
 
-    public function setPostalCode(?string $postalCode): self // Add this setter
+    public function setDepartLongitude(?string $departLongitude): self
     {
-        $this->postalCode = $postalCode;
+        $this->departLongitude = $departLongitude;
+        return $this;
+    }
 
+    public function getDepartLatitude(): ?string
+    {
+        return $this->departLatitude;
+    }
+
+    public function setDepartLatitude(?string $departLatitude): self
+    {
+        $this->departLatitude = $departLatitude;
+        return $this;
+    }
+
+    public function getDeliveryLongitude(): ?string
+    {
+        return $this->deliveryLongitude;
+    }
+
+    public function setDeliveryLongitude(?string $deliveryLongitude): self
+    {
+        $this->deliveryLongitude = $deliveryLongitude;
+        return $this;
+    }
+
+    public function getDeliveryLatitude(): ?string
+    {
+        return $this->deliveryLatitude;
+    }
+
+    public function setDeliveryLatitude(?string $deliveryLatitude): self
+    {
+        $this->deliveryLatitude = $deliveryLatitude;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
         return $this;
     }
 }

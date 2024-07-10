@@ -2,7 +2,7 @@
 
 {% block title %}
     {% if form.vars.data.id is defined %}
-        Edit Planning
+        Add Planning
     {% else %}
         Create Planning
     {% endif %}
@@ -13,13 +13,11 @@
     <style>
         /* Your custom styles */
     </style>
-    {# Include Flatpickr CSS #}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {# Include Flatpickr JS #}
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -28,47 +26,41 @@
                 dateFormat: "Y-m-d H:i",
             });
 
-            const wilayaSelect = document.querySelector('select[name="planning[deliveryAddress]"]');
-            const postalCodeInput = document.querySelector('input[name="planning[postalCode]"]');
+            const departAddressSelect = document.querySelector('select[name="planning[departAddress]"]');
+            const deliveryAddressSelect = document.querySelector('select[name="planning[deliveryAddress]"]');
+            const departLongitudeInput = document.querySelector('input[name="planning[departLongitude]"]');
+            const departLatitudeInput = document.querySelector('input[name="planning[departLatitude]"]');
+            const deliveryLongitudeInput = document.querySelector('input[name="planning[deliveryLongitude]"]');
+            const deliveryLatitudeInput = document.querySelector('input[name="planning[deliveryLatitude]"]');
 
-            const wilayas = {
-                'Tunis': '1000',
-                'Sfax': '3000',
-                'Sousse': '4000',
-                'Ettadhamen': '2061',
-                'Kairouan': '3100',
-                'Gabes': '6000',
-                'Bizerte': '7000',
-                'Ariana': '2037',
-                'Gafsa': '2100',
-                'La Goulette': '2060',
-                'Monastir': '5000',
-                'Medenine': '4100',
-                'Ben Arous': '2013',
-                'Kasserine': '1200',
-                'Nabeul': '8000',
-                'Beja': '9000',
-                'Mahdia': '5100',
-                'Kelibia': '8090',
-                'Jendouba': '8100',
-                'Zarzis': '4170',
-                'Hammamet': '8050',
-                'El Kef': '7100',
-                'Kebili': '4200',
-                'Siliana': '6100'
+            const locations = {
+                {% for location, coords in locations %}
+                '{{ location }}': {
+                    'longitude': '{{ coords.longitude }}',
+                    'latitude': '{{ coords.latitude }}'
+                },
+                {% endfor %}
             };
 
-            // Function to update postal code based on selected wilaya
-            function updatePostalCode() {
-                const selectedWilaya = wilayaSelect.value;
-                postalCodeInput.value = wilayas[selectedWilaya] || '';
+            function updateCoordinates(addressSelect, longitudeInput, latitudeInput) {
+                const selectedLocation = addressSelect.value;
+                if (locations[selectedLocation]) {
+                    longitudeInput.value = locations[selectedLocation].longitude;
+                    latitudeInput.value = locations[selectedLocation].latitude;
+                }
             }
 
-            // Initialize postal code on page load
-            updatePostalCode();
+            departAddressSelect.addEventListener('change', function() {
+                updateCoordinates(departAddressSelect, departLongitudeInput, departLatitudeInput);
+            });
 
-            // Listen for changes in delivery address select
-            wilayaSelect.addEventListener('change', updatePostalCode);
+            deliveryAddressSelect.addEventListener('change', function() {
+                updateCoordinates(deliveryAddressSelect, deliveryLongitudeInput, deliveryLatitudeInput);
+            });
+
+            // Initialize on page load
+            updateCoordinates(departAddressSelect, departLongitudeInput, departLatitudeInput);
+            updateCoordinates(deliveryAddressSelect, deliveryLongitudeInput, deliveryLatitudeInput);
         });
     </script>
 {% endblock %}
@@ -80,7 +72,7 @@
                 <div class="form-container">
                     <h1 class="form-title">
                         {% if form.vars.data.id is defined %}
-                            Edit Planning
+                            Add Planning
                         {% else %}
                             Create Planning
                         {% endif %}
@@ -91,12 +83,20 @@
                         {{ form_widget(form.deliveryDate, {'attr': {'class': 'form-control datetimepicker'}}) }}
                     </div>
                     <div class="form-group">
+                        {{ form_label(form.departAddress, 'Depart Address', {'class': 'form-label'}) }}
+                        {{ form_widget(form.departAddress, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        {{ form_widget(form.departLongitude, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(form.departLatitude, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
                         {{ form_label(form.deliveryAddress, 'Delivery Address', {'class': 'form-label'}) }}
                         {{ form_widget(form.deliveryAddress, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <div class="form-group">
-                        {{ form_label(form.postalCode, 'Postal Code', {'class': 'form-label'}) }}
-                        {{ form_widget(form.postalCode, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+                    <div class="form-group" style="display:none;">
+                        {{ form_widget(form.deliveryLongitude, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(form.deliveryLatitude, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="form-group">
                         {{ form_label(form.reference, 'Reference', {'class': 'form-label'}) }}
@@ -105,6 +105,10 @@
                     <div class="form-group">
                         {{ form_label(form.agent, 'Agent', {'class': 'form-label'}) }}
                         {{ form_widget(form.agent, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.description, 'Description', {'class': 'form-label'}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary submit-btn">Save</button>

@@ -109,57 +109,69 @@
     <div class="registration-form">
         <h1>Register</h1>
         <p>Enter your credentials.</p>
+        
+        {# Display global form errors if any #}
         {{ form_errors(registrationForm) }}
 
         {{ form_start(registrationForm) }}
             <div class="form-group">
                 {{ form_label(registrationForm.email, 'Email') }}
                 {{ form_widget(registrationForm.email) }}
+                {{ form_errors(registrationForm.email) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(registrationForm.firstName, 'First Name') }}
                 {{ form_widget(registrationForm.firstName) }}
+                {{ form_errors(registrationForm.firstName) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(registrationForm.lastName, 'Last Name') }}
                 {{ form_widget(registrationForm.lastName) }}
+                {{ form_errors(registrationForm.lastName) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(registrationForm.cin, 'CIN') }}
                 {{ form_widget(registrationForm.cin) }}
+                {{ form_errors(registrationForm.cin) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(registrationForm.address, 'Address') }}
                 {{ form_widget(registrationForm.address) }}
+                {{ form_errors(registrationForm.address) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(registrationForm.numTel, 'Phone Number') }}
                 {{ form_widget(registrationForm.numTel) }}
+                {{ form_errors(registrationForm.numTel) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(registrationForm.dateNaissance, 'Birth Date') }}
                 {{ form_widget(registrationForm.dateNaissance) }}
+                {{ form_errors(registrationForm.dateNaissance) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(registrationForm.genre, 'Gender') }}
                 {{ form_widget(registrationForm.genre) }}
+                {{ form_errors(registrationForm.genre) }}
             </div>
 
             <div class="form-group">
-                {{ form_label(registrationForm.plainPassword, 'Password') }}
                 {{ form_widget(registrationForm.plainPassword) }}
+                {{ form_label(registrationForm.plainPassword, 'Password') }}
+                {{ form_errors(registrationForm.plainPassword) }}
             </div>
 
             <div class="form-group">
                 {{ form_widget(registrationForm.agreeTerms) }}
                 {{ form_label(registrationForm.agreeTerms, 'I agree to the terms and conditions') }}
+                {{ form_errors(registrationForm.agreeTerms) }}
             </div>
 
             <button type="submit">Register</button>

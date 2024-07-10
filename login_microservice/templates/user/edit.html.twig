@@ -56,60 +56,60 @@
 
         {{ form_start(form) }}
             <div class="form-group">
-                {{ form_label(form.email) }}
+                {{ form_label(form.email, 'Email') }}
                 {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.email) }}
             </div>
             <div class="form-group">
-            {{ form_label(form.roles) }}
-            <div>
-                {% for role in form.roles %}
-                    <div class="form-check">
-                        {{ form_widget(role, {'attr': {'class': 'form-check-input role-checkbox'}}) }}
-                        {{ form_label(role, null, {'attr': {'class': 'form-check-label'}}) }}
-                    </div>
-                {% endfor %}
+                {{ form_label(form.roles, 'Roles') }}
+                <div>
+                    {% for role in form.roles %}
+                        <div class="form-check">
+                            {{ form_widget(role, {'attr': {'class': 'form-check-input role-checkbox'}}) }}
+                            {{ form_label(role, null, {'attr': {'class': 'form-check-label'}}) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {{ form_errors(form.roles) }}
             </div>
-            {{ form_errors(form.roles) }}
-        </div>
             
             <div class="form-group">
-                {{ form_label(form.password) }}
+                {{ form_label(form.password, 'Password') }}
                 {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.password) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.firstName) }}
+                {{ form_label(form.firstName, 'First Name') }}
                 {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.firstName) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.lastName) }}
+                {{ form_label(form.lastName, 'Last Name') }}
                 {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.lastName) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.cin) }}
+                {{ form_label(form.cin, 'CIN') }}
                 {{ form_widget(form.cin, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.cin) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.address) }}
+                {{ form_label(form.address, 'Address') }}
                 {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.address) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.numTel) }}
+                {{ form_label(form.numTel, 'Phone Number') }}
                 {{ form_widget(form.numTel, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.numTel) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.dateNaissance) }}
+                {{ form_label(form.dateNaissance, 'Birth Date') }}
                 {{ form_widget(form.dateNaissance, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.dateNaissance) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.genre) }}
+                {{ form_label(form.genre, 'Gender') }}
                 {{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.genre) }}
             </div>
@@ -118,19 +118,19 @@
         {{ form_end(form) }}
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const roleCheckboxes = document.querySelectorAll('.role-checkbox');
-        roleCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    roleCheckboxes.forEach(box => {
-                        if (box !== this && box.value !== this.value) {
-                            box.checked = false;
-                        }
-                    });
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleCheckboxes = document.querySelectorAll('.role-checkbox');
+            roleCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        roleCheckboxes.forEach(box => {
+                            if (box !== this && box.value !== this.value) {
+                                box.checked = false;
+                            }
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 {% endblock %}
