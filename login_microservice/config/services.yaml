@@ -27,3 +27,8 @@ services:
     autowire: true
     autoconfigure: true
     public: true
+
+  # Define controllers if needed explicitly
+  App\Controller\:
+    resource: '../src/Controller'
+    tags: ['controller.service_arguments']

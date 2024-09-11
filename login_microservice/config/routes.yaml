@@ -9,6 +9,11 @@ login:
 app_homepage:
     path: /home
     controller: App\Controller\HomeController::index
+
+notifications_list:
+    path: /notifications
+    controller: App\Controller\NotificationController::index
+
 dashboard:
     path: /dashboard
     controller: App\Controller\DashboardController::index
@@ -16,4 +21,10 @@ edit_user:
     path: /api/user/edit/{id}
     controller: App\Controller\UserController::edit
     methods: [PUT, POST]
+# config/routes.yaml
+report_agent:
+    path: /report/agent/{agentId}
+    controller: App\Controller\ReportController::agentReport
+    methods: [GET]
+
 

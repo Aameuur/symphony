@@ -15,6 +15,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Twig\Environment;
+
 
 class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -22,7 +24,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator , private Environment $twig )
     {
     }
 
@@ -54,6 +56,12 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
         // Redirect to the dashboard for admins
         return new RedirectResponse($this->urlGenerator->generate('dashboard'));
+    }
+
+     // Check if the user is an agent
+     if (in_array('ROLE_AGENT', $user->getRoles(), true)) {
+        // Show a message that agents are not allowed to log in
+        return new Response($this->twig->render('security/agent_denied.html.twig'));
     }
 
     // Redirect to the homepage for regular users

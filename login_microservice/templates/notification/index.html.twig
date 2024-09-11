@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Notifications</h1>
+
+<a href="{{ path('notification_create') }}" class="btn btn-primary">Create Notification</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Read</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for notification in notifications %}
+            <tr>
+                <td>{{ notification.title }}</td>
+                <td>{{ notification.message }}</td>
+                <td>{{ notification.isRead ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('notification_edit', {id: notification.id}) }}" class="btn btn-secondary">Edit</a>
+                    <a href="{{ path('notification_delete', {id: notification.id}) }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

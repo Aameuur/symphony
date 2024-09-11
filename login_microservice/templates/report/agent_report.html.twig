@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Agent Performance Report</h1>
+
+    <p>Total Tasks Completed: {{ report.task_count }}</p>
+    <p>Total Time Spent: {{ report.total_time_spent / 3600 }} hours</p> <!-- Convert seconds to hours -->
+    <p>Total Distance Traveled: {{ report.total_distance_traveled }} km</p>
+{% endblock %}

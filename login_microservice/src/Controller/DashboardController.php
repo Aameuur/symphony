@@ -19,15 +19,5 @@ class DashboardController extends AbstractController
             'users' => $users,
         ]);
     }
-    #[Route('/some-feature', name: 'some_feature')]
-    public function someFeature(): Response
-    {
-        return new Response('<html><body>Some Feature</body></html>');
-    }
-
-    #[Route('/another-feature', name: 'another_feature')]
-    public function anotherFeature(): Response
-    {
-        return new Response('<html><body>Another Feature</body></html>');
-    }
+    
 }

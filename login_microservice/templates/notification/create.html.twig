@@ -1,0 +1,21 @@
+{# templates/notification/create.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Notification{% endblock %}
+
+{% block body %}
+    <h1>Create Notification</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.message) }}
+        {{ form_row(form.user) }}  {# Ensure this field exists in NotificationType #}
+        {{ form_row(form.type) }}  {# Ensure this field exists in NotificationType #}
+        {{ form_row(form.priority) }}  {# Ensure this field exists in NotificationType #}
+        {{ form_row(form.isRead) }}
+
+        <button class="btn btn-success">Create</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('notification_index') }}" class="btn btn-secondary mt-3">Back to notifications list</a>
+{% endblock %}
