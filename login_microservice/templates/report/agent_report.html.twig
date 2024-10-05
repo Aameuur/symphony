@@ -1,49 +1,139 @@
-{# templates/report/agent_report.html.twig #}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Agent Report</title>
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Reports for All Agents
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Custom styles for the agents' reports */
+        h1 {
+            color: #f0f0f0; /* White heading */
+        }
+
+        table {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent for dark theme */
+            color: #f0f0f0;
+        }
+
+        th {
+            background-color: #444444; /* Dark background for table headers */
+            color: #f0f0f0;
+        }
+
+        td {
+            background-color: #333333; /* Slightly lighter for table rows */
+            color: #f0f0f0;
+        }
+
+        .table-hover tbody tr:hover td {
+            background-color: #555555; /* Highlight row on hover */
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            background-color: #333333; /* Dark background for canvas */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Reports for All Agents</h1>
+
+        {#<table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Agent Name</th>
+                    <th>Task Count</th>
+                    <th>Total Time Spent (hours)</th>
+                    <th>Total Distance Traveled (km)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in agentsReports %}
+                    <tr>
+                        <td>{{ report.agent.firstName }} {{ report.agent.lastName }}</td>
+                        <td>{{ report.task_count }}</td>
+                        <td>{{ report.total_time_spent|number_format(2) }}</td>
+                        <td>{{ report.total_distance_traveled }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>#}
+
+        <canvas id="allAgentsReportChart" width="400" height="200"></canvas>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <h1>Agent Report for Agent ID: {{ agentId }}</h1>
-
-    <canvas id="agentReportChart" width="400" height="200"></canvas>
-
     <script>
-        const ctx = document.getElementById('agentReportChart').getContext('2d');
-        const agentReportChart = new Chart(ctx, {
-            type: 'bar', // You can use other chart types like 'line', 'pie', etc.
+        const agents = {{ agentsReports|json_encode|raw }};
+        
+        console.log(agents); 
+        console.log(JSON.stringify(agents, null, 2)); // Log the entire structure for inspection
+
+
+        const agentNames = agents.map(report => `${report.agent.firstName} ${report.agent.lastName}`);
+        const taskCounts = agents.map(agent => agent.task_count);
+        const totalTimes = agents.map(agent => agent.total_time_spent.toFixed(2));
+        const totalDistances = agents.map(agent => agent.total_distance_traveled);
+
+        const ctx = document.getElementById('allAgentsReportChart').getContext('2d');
+        const allAgentsReportChart = new Chart(ctx, {
+            type: 'bar',
             data: {
-                labels: ['Tasks Completed', 'Total Time Spent (hours)', 'Total Distance Traveled (km)'],
-                datasets: [{
-                    label: 'Agent Report',
-                    data: [
-                        {{ report.task_count }},
-                        {{ report.total_time_spent / 3600 }}, // Convert seconds to hours
-                        {{ report.total_distance_traveled }}
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(75, 192, 192, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(75, 192, 192, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+                labels: agentNames,
+                datasets: [
+                    {
+                        label: 'Task Count',
+                        data: taskCounts,
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total Time Spent (hours)',
+                        data: totalTimes,
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total Distance Traveled (km)',
+                        data: totalDistances,
+                        backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }
+                ]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#ffffff'  // White labels for y-axis
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#ffffff'  // White labels for x-axis
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#ffffff'  // White for legend labels
+                        }
                     }
                 }
             }
         });
     </script>
-</body>
-</html>
+{% endblock %}

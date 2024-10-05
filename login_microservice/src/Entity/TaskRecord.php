@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use App\Repository\TaskRecordRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TaskRecordRepository::class)]
@@ -11,25 +12,26 @@ class TaskRecord
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'agent_id', referencedColumnName: 'id', nullable: false)]
+    private ?User $agentId = null; // Reference to User entity
 
     #[ORM\Column(type: 'integer')]
-    private $agentId;
-
-    #[ORM\Column(type: 'integer')]
-    private $taskId;
+    private ?int $taskId = null;
 
     #[ORM\Column(type: 'datetime')]
-    private $startTime;
+    private ?\DateTimeInterface $startTime = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $endTime;
+    private ?\DateTimeInterface $endTime = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $status;
+    private ?string $status = null;
 
     #[ORM\Column(type: 'float', nullable: true)]
-    private $distanceTraveled;
+    private ?float $distanceTraveled = null;
 
     // Getters and setters...
 
@@ -38,14 +40,14 @@ class TaskRecord
         return $this->id;
     }
 
-    public function getAgentId(): ?int
+    public function getAgent(): ?User
     {
-        return $this->agentId;
+        return $this->agent;
     }
 
-    public function setAgentId(int $agentId): self
+    public function setAgent(User $agent): self
     {
-        $this->agentId = $agentId;
+        $this->agent = $agent;
 
         return $this;
     }
