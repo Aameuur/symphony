@@ -1,9 +1,49 @@
-{% extends 'base.html.twig' %}
+{# templates/report/agent_report.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agent Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Agent Report for Agent ID: {{ agentId }}</h1>
 
-{% block body %}
-    <h1>Agent Performance Report</h1>
+    <canvas id="agentReportChart" width="400" height="200"></canvas>
 
-    <p>Total Tasks Completed: {{ report.task_count }}</p>
-    <p>Total Time Spent: {{ report.total_time_spent / 3600 }} hours</p> <!-- Convert seconds to hours -->
-    <p>Total Distance Traveled: {{ report.total_distance_traveled }} km</p>
-{% endblock %}
+    <script>
+        const ctx = document.getElementById('agentReportChart').getContext('2d');
+        const agentReportChart = new Chart(ctx, {
+            type: 'bar', // You can use other chart types like 'line', 'pie', etc.
+            data: {
+                labels: ['Tasks Completed', 'Total Time Spent (hours)', 'Total Distance Traveled (km)'],
+                datasets: [{
+                    label: 'Agent Report',
+                    data: [
+                        {{ report.task_count }},
+                        {{ report.total_time_spent / 3600 }}, // Convert seconds to hours
+                        {{ report.total_distance_traveled }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

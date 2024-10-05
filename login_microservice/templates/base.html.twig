@@ -40,7 +40,7 @@
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('report_agent') }}">Statistique</a>
+                        <a class="nav-link" href="{{ path('report_agent', { 'agentId': app.user.id }) }}">Statistique</a>
                     </li>
                 {% endif %}
             </ul>
