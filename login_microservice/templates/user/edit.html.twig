@@ -63,13 +63,16 @@
             <div class="form-group">
                 {{ form_label(form.roles, 'Roles') }}
                 <div>
-                    {% for role in form.roles %}
-                        <div class="form-check">
-                            {{ form_widget(role, {'attr': {'class': 'form-check-input role-checkbox'}}) }}
-                            {{ form_label(role, null, {'attr': {'class': 'form-check-label'}}) }}
+                                           
+                                            <div class="form-check">
+                            <input type="checkbox" id="user_roles_1" name="user[roles][]" class="form-check-input role-checkbox" value="ROLE_USER" />
+                            <label for="user_roles_1">User</label>
                         </div>
-                    {% endfor %}
-                </div>
+                                            <div class="form-check">
+                            <input type="checkbox" id="user_roles_2" name="user[roles][]" class="form-check-input role-checkbox" value="ROLE_AGENT" checked="checked" />
+                            <label for="user_roles_2">Agent</label>
+                        </div>
+                                    </div>
                 {{ form_errors(form.roles) }}
             </div>
             

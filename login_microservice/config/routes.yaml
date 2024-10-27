@@ -26,5 +26,8 @@ report_agent:
     path: /report/agent/{agentId}
     controller: App\Controller\ReportController::agentReport
     methods: [GET]
+twilio_test:
+    path: /twilio/send
+    controller: App\Controller\TwilioTestController::sendMessage
 
 

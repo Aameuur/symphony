@@ -12,10 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\PlanningRepository;
+use App\Service\NotificationService; // Make sure to create this service
 
 class PlanningController extends AbstractController
 {
     private $planningRepository;
+    private $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService; // Initialize the notification service
+    }
 
     #[Route('/planning/create', name: 'planning_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
@@ -69,6 +76,12 @@ class PlanningController extends AbstractController
             $entityManager->persist($planning);
             $entityManager->flush();
 
+            // Send notification to the agent's phone number
+        if ($planning->getAgent()) { // Check if an agent is associated
+            $agentPhoneNumber = $planning->getAgent()->getNumTel(); // Get the agent's phone number
+            $message = 'A new planning has been assigned to you: Planning ID ' . $planning->getId(); // Customize your message
+            $this->notificationService->sendSms($agentPhoneNumber, $message); // Send SMS to the agent
+        }
             $this->addFlash('success', 'Planning created successfully!');
 
             return $this->redirectToRoute('agent');
@@ -152,4 +165,3 @@ class PlanningController extends AbstractController
         ]);
     }
 }
-
