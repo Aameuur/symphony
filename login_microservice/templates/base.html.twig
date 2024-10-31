@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>{% block title %} Delivery Project!{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">    
     {% block stylesheets %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <style>
@@ -29,20 +31,34 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('agent') }}">Planning</a>
-                </li>
+                    <a class="nav-link" href="{{ path('agent') }}">Agents</a>
+                </li> {% endif %}
+                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('show_planning') }}">Planning</a>
+                </li> {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('destination_index') }}">Destination</a>
+                </li> {% endif %}
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ path('dashboard') }}">Users</a>
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('report_agents') }}">Statistique</a>
+                        <a class="nav-link" href="{{ path('report_agents') }}">Dashboard</a>
                     </li>
                 {% endif %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('coli_index') }}">Coli</a>
+                </li> {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto">
                 {% if app.user %}

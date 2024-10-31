@@ -1,0 +1,49 @@
+{# templates/destination/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Destinations{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-light">Destinations</h1>
+        <a href="{{ path('destination_new') }}" class="btn btn-success">Add New Destination</a>
+    </div>
+
+    {% if destinations is empty %}
+        <div class="alert alert-warning" role="alert">
+            No destinations found.
+        </div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>ContactInformation</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for destination in destinations %}
+                        <tr>
+                            <td>{{ destination.name }}</td>
+                            <td>{{ destination.address }}</td>
+                            <td>{{ destination.contactInformation }}</td>
+                            <td>
+                                <a href="{{ path('destination_edit', { id: destination.id }) }}" class="btn btn-primary btn-sm">Edit</a>
+                                <form method="post" action="{{ path('destination_delete', { id: destination.id }) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this destination?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ destination.id) }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

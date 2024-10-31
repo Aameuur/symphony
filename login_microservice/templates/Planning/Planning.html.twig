@@ -28,39 +28,7 @@
 
             const departAddressSelect = document.querySelector('select[name="planning[departAddress]"]');
             const deliveryAddressSelect = document.querySelector('select[name="planning[deliveryAddress]"]');
-            const departLongitudeInput = document.querySelector('input[name="planning[departLongitude]"]');
-            const departLatitudeInput = document.querySelector('input[name="planning[departLatitude]"]');
-            const deliveryLongitudeInput = document.querySelector('input[name="planning[deliveryLongitude]"]');
-            const deliveryLatitudeInput = document.querySelector('input[name="planning[deliveryLatitude]"]');
-
-            const locations = {
-                {% for location, coords in locations %}
-                '{{ location }}': {
-                    'longitude': '{{ coords.longitude }}',
-                    'latitude': '{{ coords.latitude }}'
-                },
-                {% endfor %}
-            };
-
-            function updateCoordinates(addressSelect, longitudeInput, latitudeInput) {
-                const selectedLocation = addressSelect.value;
-                if (locations[selectedLocation]) {
-                    longitudeInput.value = locations[selectedLocation].longitude;
-                    latitudeInput.value = locations[selectedLocation].latitude;
-                }
-            }
-
-            departAddressSelect.addEventListener('change', function() {
-                updateCoordinates(departAddressSelect, departLongitudeInput, departLatitudeInput);
-            });
-
-            deliveryAddressSelect.addEventListener('change', function() {
-                updateCoordinates(deliveryAddressSelect, deliveryLongitudeInput, deliveryLatitudeInput);
-            });
-
-            // Initialize on page load
-            updateCoordinates(departAddressSelect, departLongitudeInput, departLatitudeInput);
-            updateCoordinates(deliveryAddressSelect, deliveryLongitudeInput, deliveryLatitudeInput);
+            
         });
     </script>
 {% endblock %}
@@ -72,7 +40,7 @@
                 <div class="form-container">
                     <h1 class="form-title">
                         {% if form.vars.data.id is defined %}
-                            Add Planning
+                             Planning
                         {% else %}
                             Create Planning
                         {% endif %}
@@ -86,18 +54,12 @@
                         {{ form_label(form.departAddress, 'Depart Address', {'class': 'form-label'}) }}
                         {{ form_widget(form.departAddress, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <div class="form-group" style="display:none;">
-                        {{ form_widget(form.departLongitude, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_widget(form.departLatitude, {'attr': {'class': 'form-control'}}) }}
-                    </div>
+                    
                     <div class="form-group">
                         {{ form_label(form.deliveryAddress, 'Delivery Address', {'class': 'form-label'}) }}
                         {{ form_widget(form.deliveryAddress, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <div class="form-group" style="display:none;">
-                        {{ form_widget(form.deliveryLongitude, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_widget(form.deliveryLatitude, {'attr': {'class': 'form-control'}}) }}
-                    </div>
+                    
                     <div class="form-group">
                         {{ form_label(form.reference, 'Reference', {'class': 'form-label'}) }}
                         {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}

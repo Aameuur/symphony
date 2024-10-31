@@ -1,7 +1,5 @@
 <?php
 
-// src/Form/PlanningType.php
-
 namespace App\Form;
 
 use App\Entity\Planning;
@@ -11,15 +9,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
+use App\Entity\Destination; 
+use App\Entity\Coli;
+use Symfony\Component\Form\Extension\Core\Type\TextType; 
 
 class PlanningType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $locations = $options['locations'];
+        $destinations = $options['destinations']; // Fetch dynamic destinations
+        $colis = $options['colis']; // Fetch dynamic colis
 
         $builder
             ->add('deliveryDate', DateTimeType::class, [
@@ -27,24 +28,21 @@ class PlanningType extends AbstractType
                 'html5' => false,
                 'attr' => ['class' => 'datetimepicker'],
             ])
-            ->add('departAddress', ChoiceType::class, [
-                'choices' => array_flip($locations),
+            ->add('departAddress', EntityType::class, [
+                'class' => Destination::class,
+                'choice_label' => 'name', // Adjust based on your Destination entity properties
                 'placeholder' => 'Select a depart address',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('deliveryAddress', ChoiceType::class, [
-                'choices' => array_flip($locations),
+            ->add('deliveryAddress', EntityType::class, [
+                'class' => Destination::class,
+                'choice_label' => 'name', // Adjust based on your Destination entity properties
                 'placeholder' => 'Select a delivery address',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('reference', ChoiceType::class, [ 
-                'choices' => [
-                    'Ref001' => 'Ref001',
-                    'Ref002' => 'Ref002',
-                    'Ref003' => 'Ref003',
-                    'Ref004' => 'Ref004',
-                    'Ref005' => 'Ref005',
-                ],
+            ->add('reference', EntityType::class, [
+                'class' => Coli::class,
+                'choice_label' => 'reference', // Adjust based on your Coli entity properties
                 'placeholder' => 'Select a reference',
             ])
             ->add('agent', EntityType::class, [
@@ -56,8 +54,8 @@ class PlanningType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
-            ])
-            ->add('departLongitude', TextType::class, [
+            ]);
+            /* ->add('departLongitude', TextType::class, [
                 'mapped' => false,
                 'attr' => ['class' => 'form-control'],
             ])
@@ -72,12 +70,12 @@ class PlanningType extends AbstractType
             ->add('deliveryLatitude', TextType::class, [
                 'mapped' => false,
                 'attr' => ['class' => 'form-control'],
-            ]);
+            ]); */
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired('locations');
+        $resolver->setRequired(['destinations', 'colis']); // Set the required options
         $resolver->setDefaults([
             'data_class' => Planning::class,
         ]);

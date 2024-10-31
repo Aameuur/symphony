@@ -1,0 +1,29 @@
+{# templates/destination/new.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}New Destination{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Create New Destination</h1>
+    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+        <div class="mb-3">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.address) }}
+            {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.address) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.contactInformation) }}
+            {{ form_widget(form.contactInformation, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.contactInformation) }}
+        </div>
+                <button type="submit" class="btn btn-success w-100">Save Destination</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

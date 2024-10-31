@@ -4,6 +4,10 @@ parameters:
     twilio_number: '%env(TWILIO_NUMBER)%'
 
 services:
+    App\Service\DestinationService:
+        autowire: true
+        autoconfigure: true
+        
     App\Service\NotificationService:
         arguments:
             $client: '@twilio.client'

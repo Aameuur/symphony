@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Repository\PlanningRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Destination;
+use App\Entity\Coli;
 
 #[ORM\Entity(repositoryClass: PlanningRepository::class)]
 class Planning
@@ -21,13 +23,16 @@ class Planning
     #[ORM\Column(type: 'datetime')]
     private $deliveryDate;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Coli::class)]
+    #[ORM\JoinColumn(name: 'ref_id', referencedColumnName: 'id', nullable: false)]
     private $reference;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Destination::class)]
+    #[ORM\JoinColumn(name: 'depart_address_id', referencedColumnName: 'id', nullable: false)]
     private $departAddress;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\ManyToOne(targetEntity: Destination::class)]
+    #[ORM\JoinColumn(name: 'delivery_address_id', referencedColumnName: 'id', nullable: false)]
     private $deliveryAddress;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -73,34 +78,34 @@ class Planning
         return $this;
     }
 
-    public function getReference(): ?string
+    public function getReference(): ?Coli // Change made here
     {
-        return $this->reference;
+        return $this->reference; // This can be null if not set
     }
 
-    public function setReference(?string $reference): self
+    public function setReference(?Coli $reference): self
     {
         $this->reference = $reference;
         return $this;
     }
 
-    public function getDepartAddress(): ?string
+    public function getDepartAddress(): ?Destination
     {
         return $this->departAddress;
     }
 
-    public function setDepartAddress(?string $departAddress): self
+    public function setDepartAddress(?Destination $departAddress): self
     {
         $this->departAddress = $departAddress;
         return $this;
     }
 
-    public function getDeliveryAddress(): ?string
+    public function getDeliveryAddress(): ?Destination
     {
         return $this->deliveryAddress;
     }
 
-    public function setDeliveryAddress(?string $deliveryAddress): self
+    public function setDeliveryAddress(?Destination $deliveryAddress): self
     {
         $this->deliveryAddress = $deliveryAddress;
         return $this;

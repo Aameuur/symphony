@@ -13,10 +13,12 @@ class DashboardController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         $users = $userRepository->findAll();
-     
+        $agents = array_filter($users, function($user) {
+            return in_array('ROLE_USER', $user->getRoles());
+        });
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
-            'users' => $users,
+            'users' => $agents,
         ]);
     }
     

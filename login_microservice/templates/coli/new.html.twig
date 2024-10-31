@@ -1,0 +1,36 @@
+{# templates/coli/new.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Coli{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Ajouter un Coli</h1>
+    
+    {# Display form errors if any #}
+    {% if form.vars.errors|length > 0 %}
+        <div class="alert alert-danger">
+            <strong>Erreur :</strong> Veuillez corriger les erreurs ci-dessous.
+            <ul>
+                {% for error in form.vars.errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_row(form.reference, {'label': 'Reference', 'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(form.typeDeColi, {'label': 'Type de Coli', 'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(form.categories, {'label': 'Categories', 'attr': {'class': 'form-control'}}) }}
+        </div>
+        <button class="btn btn-success">Ajouter</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
