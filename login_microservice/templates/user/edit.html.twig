@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ isAgent ? 'Edit Agent' : 'Edit User' }}{% endblock %}
+{% block title %}{{ isAgent ? 'Update Agent' : 'Update User' }}{% endblock %}
 
 {% block body %}
     <style>
@@ -52,7 +52,7 @@
     </style>
 
     <div class="form-container">
-        <h1>{{ isAgent ? 'Edit Agent' : 'Edit User' }}</h1>
+        <h1>{{ isAgent ? 'Update Agent' : 'Update User' }}</h1>
 
         {{ form_start(form) }}
             <div class="form-group">

@@ -28,10 +28,10 @@ class UserType extends AbstractType
                     'Agent' => 'ROLE_AGENT',
                 ],
                 'expanded' => true,
-                'multiple' => false, // Allow multiple roles to be selected
+                'multiple' => true, // Allow multiple roles to be selected
             ])
             ->add('password', PasswordType::class, [
-                'required' => true, // Allow the password to be optional if not changing it
+                'required' => false, // Allow the password to be optional if not changing it
             ])
             ->add('firstName', TextType::class, [
                 'required' => true,

@@ -101,7 +101,7 @@
                     <td>{{ user.dateNaissance ? user.dateNaissance|date('Y-m-d') : '' }}</td>
                     <td>{{ user.genre }}</td>
                     <td>
-                        <a href="{{ path('edit_user', { 'id': user.id }) }}" class="btn btn-primary btn-sm">Update</a>
+                        <a href="{{ path('edit_user_form', { 'id': user.id }) }}" class="btn btn-primary btn-sm">Update</a>
                         <button class="btn btn-danger btn-sm" onclick="deleteUser({{ user.id }})">Delete</button>
                     </td>
                 </tr>
