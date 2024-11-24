@@ -1,0 +1,177 @@
+{# templates/registration/register.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Register Agent {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-image: url('https://wallpapercave.com/wp/wp3006080.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .registration-form {
+            background-color: rgba(255, 255, 255, 0.3);
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 500px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .registration-form h1, .registration-form p {
+            text-align: center;
+            color: #007bff;
+        }
+
+        .registration-form h1 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #0056b3;
+        }
+
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: transparent;
+            color: white;
+        }
+
+        .form-group option {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .registration-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-error {
+            color: red;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="registration-form">
+        <h1>Register User</h1>
+        <p>Enter your credentials.</p>
+        {{ form_errors(AgentRegistrationForm) }}
+
+        {{ form_start(AgentRegistrationForm) }}
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.email, 'Email') }}
+                {{ form_widget(AgentRegistrationForm.email) }}
+                <span class="form-error">{{ form_errors(AgentRegistrationForm.email) }}</span>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.firstName, 'First Name') }}
+                {{ form_widget(AgentRegistrationForm.firstName) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.firstName) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.lastName, 'Last Name') }}
+                {{ form_widget(AgentRegistrationForm.lastName) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.lastName) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.cin, 'CIN') }}
+                {{ form_widget(AgentRegistrationForm.cin) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.cin) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.address, 'Address') }}
+                {{ form_widget(AgentRegistrationForm.address) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.address) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.numTel, 'Phone Number') }}
+                {{ form_widget(AgentRegistrationForm.numTel) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.numTel) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.dateNaissance, 'Birth Date') }}
+                {{ form_widget(AgentRegistrationForm.dateNaissance) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.dateNaissance) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.genre, 'Gender') }}
+                {{ form_widget(AgentRegistrationForm.genre) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.genre) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                {{ form_label(AgentRegistrationForm.plainPassword, 'Password') }}
+                {{ form_widget(AgentRegistrationForm.plainPassword) }}
+                                <span class="form-error">{{ form_errors(AgentRegistrationForm.plainPassword) }}</span>
+
+            </div>
+
+            <div class="form-group">
+                <label>
+                    {{ form_widget(AgentRegistrationForm.agreeTerms) }} I agree to the terms and conditions
+                </label>
+                <span class="form-error">{{ form_errors(AgentRegistrationForm.agreeTerms) }}</span>
+            </div>
+
+            <button type="submit">Register</button>
+        {{ form_end(AgentRegistrationForm) }}
+    </div>
+{% endblock %}

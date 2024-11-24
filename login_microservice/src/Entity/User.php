@@ -1,6 +1,5 @@
 <?php
 
-// src/Entity/User.php
 
 namespace App\Entity;
 
@@ -10,9 +9,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['cin'], message: 'There is already an account with this CIN')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -24,33 +25,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Email is required')]
+    #[Assert\Email(message: 'The email "{{ value }}" is not a valid email.')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [self::ROLE_USER];
 
+    #[Assert\Length(
+        min: 8,
+        max: 50,
+        minMessage: 'Password must be at least {{ limit }} characters long',
+        maxMessage: 'Password cannot be longer than {{ limit }} characters'
+    )]
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Assert\NotBlank(message: 'First name is required')]
+    #[Assert\Length(max: 255, maxMessage: 'First name cannot be longer than {{ limit }} characters')]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+    #[Assert\NotBlank(message: 'Last name is required')]
+    #[Assert\Length(max: 255, maxMessage: 'Last name cannot be longer than {{ limit }} characters')]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[Assert\NotBlank(message: 'CIN is required')]
+    #[Assert\Length(exactly: 8, exactMessage: 'CIN must be exactly {{ limit }} characters')]
     #[ORM\Column(length: 20, unique: true)]
     private ?string $cin = null;
 
+    #[Assert\NotBlank(message: 'Address is required')]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[Assert\NotBlank(message: 'Phone number is required')]
+    #[Assert\Regex(
+        pattern: '/^[0-9]{8,15}$/',
+        message: 'Phone number must be between 8 and 15 digits'
+    )]
     #[ORM\Column(length: 15)]
     private ?string $numTel = null;
 
+    #[Assert\NotBlank(message: 'Birth date is required')]
+    #[Assert\Date(message: 'Invalid birth date format')]
     #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $dateNaissance = null;
 
+    #[Assert\NotBlank(message: 'Gender is required')]
+    #[Assert\Choice(choices: ['Male', 'Female'], message: 'Choose a valid gender')]
     #[ORM\Column(length: 10)]
     private ?string $genre = null;
 
