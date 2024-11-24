@@ -82,6 +82,8 @@ class UserController extends AbstractController
     #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST', 'GET'])]
 public function edit(Request $request, User $user): Response
  {
+    $isAgent = in_array('ROLE_AGENT', $user->getRoles());
+
     $form = $this->createForm(UserType::class, $user);
     $form->handleRequest($request);
 
@@ -104,9 +106,10 @@ public function edit(Request $request, User $user): Response
     }
 
     $errors = $this->getFormErrors($form);
-    return $this->render('home/edit.html.twig', [
+    return $this->render('user/edit.html.twig', [
         'form' => $form->createView(),
         'errors' => $errors,
+        'isAgent' => $isAgent,
     ]);
     }
 
