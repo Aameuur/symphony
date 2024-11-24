@@ -70,7 +70,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $numTel = null;
 
     #[Assert\NotBlank(message: 'Birth date is required')]
-    #[Assert\Date(message: 'Invalid birth date format')]
     #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $dateNaissance = null;
 

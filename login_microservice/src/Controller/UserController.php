@@ -47,7 +47,8 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->submit($data);
-
+        $errors = $this->getFormErrors($form);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -55,7 +56,6 @@ class UserController extends AbstractController
             return new JsonResponse('User created successfully', Response::HTTP_CREATED);
         }
 
-        $errors = $this->getFormErrors($form);
         return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
     }
 
