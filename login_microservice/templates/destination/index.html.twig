@@ -33,7 +33,7 @@
                             <td>{{ destination.address }}</td>
                             <td>{{ destination.contactInformation }}</td>
                             <td>
-                                <a href="{{ path('destination_edit', { id: destination.id }) }}" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{{ path('destination_edit', { id: destination.id }) }}" class="btn btn-primary btn-sm">Update</a>
                                 <form method="post" action="{{ path('destination_delete', { id: destination.id }) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this destination?');">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ destination.id) }}">
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>

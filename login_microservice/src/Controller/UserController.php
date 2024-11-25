@@ -47,7 +47,8 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->submit($data);
-
+        $errors = $this->getFormErrors($form);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -55,7 +56,6 @@ class UserController extends AbstractController
             return new JsonResponse('User created successfully', Response::HTTP_CREATED);
         }
 
-        $errors = $this->getFormErrors($form);
         return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
     }
 
@@ -70,77 +70,20 @@ class UserController extends AbstractController
     #[Route('/edit/{id}', name: 'edit_user_form', methods: ['GET'])]
     public function editForm(User $user): Response
     {
+        $isAgent = in_array('ROLE_AGENT', $user->getRoles());
         // Render the edit form
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $this->createForm(UserType::class, $user)->createView(),
+            'isAgent' => $isAgent,
         ]);
     }
-
-    #[Route('/edit/{id}', name: 'Planing_Agent', methods: ['GET'])]
-    public function planingForm(User $user): Response
-    {
-        // Render the edit form
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $this->createForm(UserType::class, $user)->createView(),
-        ]);
-    }
-    /* #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST'])]
-    public function edit(Request $request, User $user): JsonResponse
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Convert the single selected role into an array
-            $roles = $form->get('roles')->getData();
-            $user->setRoles($roles);
-            $plainPassword = $form->get('password')->getData();
-            if ($plainPassword) {
-                // Hash the password
-                $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
-            }
-            $this->entityManager->flush();
-
-            return new JsonResponse('User updated successfully', Response::HTTP_OK);
-        }
-
-        $errors = $this->getFormErrors($form);
-        return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
-    } */
-/* 
-    #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST'])]
-    public function edit(Request $request, User $user): JsonResponse
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $roles = $form->get('roles')->getData();
-            if (count($roles) > 1) {
-                return new JsonResponse('Only one role can be assigned to a user.', Response::HTTP_BAD_REQUEST);
-            }
-
-            $user->setRoles($roles);
-            $plainPassword = $form->get('password')->getData();
-            if ($plainPassword) {
-                $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
-            }
-            $this->entityManager->flush();
-
-            return new JsonResponse('User updated successfully', Response::HTTP_OK);
-        }
-
-        $errors = $this->getFormErrors($form);
-        return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
-    } */
-
+    
     #[Route('/edit/{id}', name: 'edit_user', methods: ['PUT', 'POST', 'GET'])]
 public function edit(Request $request, User $user): Response
-{
+ {
+    $isAgent = in_array('ROLE_AGENT', $user->getRoles());
+
     $form = $this->createForm(UserType::class, $user);
     $form->handleRequest($request);
 
@@ -159,15 +102,16 @@ public function edit(Request $request, User $user): Response
         $this->entityManager->flush();
 
         // Redirect to the same page
-        return $this->redirectToRoute('dashboard', ['id' => $user->getId()]);
+        return $this->redirectToRoute('app_homepage', ['id' => $user->getId()]);
     }
 
     $errors = $this->getFormErrors($form);
-    return $this->render('home/edit.html.twig', [
+    return $this->render('user/edit.html.twig', [
         'form' => $form->createView(),
         'errors' => $errors,
+        'isAgent' => $isAgent,
     ]);
-}
+    }
 
     
     #[Route('/delete/{id}', name: 'delete_user', methods: ['DELETE'])]

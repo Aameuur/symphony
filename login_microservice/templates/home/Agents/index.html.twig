@@ -90,7 +90,6 @@
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th>ID</th>
                 <th>Email</th>
                 <th>Roles</th>
                 <th>First Name</th>
@@ -106,7 +105,6 @@
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td>{{ user.id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.roles|join(', ') }}</td>
                     <td>{{ user.firstName }}</td>
@@ -117,7 +115,7 @@
                     <td>{{ user.dateNaissance ? user.dateNaissance|date('Y-m-d') : '' }}</td>
                     <td>{{ user.genre }}</td>
                     <td class="action-buttons">
-                        <a href="{{ path('edit_user_form', { 'id': user.id }) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{{ path('edit_user_form', { 'id': user.id }) }}" class="btn btn-primary btn-sm">Update</a>
                         <button class="btn btn-danger btn-sm" onclick="deleteUser({{ user.id }})">Delete</button>
                     </td>
                 </tr>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}{{ isAgent ? 'Update Agent' : 'Update User' }}{% endblock %}
 
 {% block body %}
     <style>
@@ -52,7 +52,7 @@
     </style>
 
     <div class="form-container">
-        <h1>Edit Agent</h1>
+        <h1>{{ isAgent ? 'Update Agent' : 'Update User' }}</h1>
 
         {{ form_start(form) }}
             <div class="form-group">
@@ -64,15 +64,15 @@
                 {{ form_label(form.roles, 'Roles') }}
                 <div>
                                            
-                                            <div class="form-check">
+                        <div class="form-check">
                             <input type="checkbox" id="user_roles_1" name="user[roles][]" class="form-check-input role-checkbox" value="ROLE_USER" />
                             <label for="user_roles_1">User</label>
                         </div>
-                                            <div class="form-check">
+                        <div class="form-check">
                             <input type="checkbox" id="user_roles_2" name="user[roles][]" class="form-check-input role-checkbox" value="ROLE_AGENT" checked="checked" />
                             <label for="user_roles_2">Agent</label>
                         </div>
-                                    </div>
+                </div>
                 {{ form_errors(form.roles) }}
             </div>
             

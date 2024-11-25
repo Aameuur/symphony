@@ -2,16 +2,16 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier un Coli{% endblock %}
+{% block title %}Edit a Parcel{% endblock %}
 
 {% block body %}
 <div class="container mt-5">
-    <h1>Modifier un Coli</h1>
+    <h1>Edit a Parcel</h1>
     
     {# Display form errors if any #}
     {% if form.vars.errors|length > 0 %}
         <div class="alert alert-danger">
-            <strong>Erreur :</strong> Veuillez corriger les erreurs ci-dessous.
+            <strong>Error:</strong> Please correct the errors below.
             <ul>
                 {% for error in form.vars.errors %}
                     <li>{{ error.message }}</li>
@@ -25,12 +25,12 @@
             {{ form_row(form.reference, {'label': 'Reference', 'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="mb-3">
-            {{ form_row(form.typeDeColi, {'label': 'Type de Coli', 'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.typeDeColi, {'label': 'Parcel Type', 'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="mb-3">
             {{ form_row(form.categories, {'label': 'Categories', 'attr': {'class': 'form-control'}}) }}
         </div>
-        <button class="btn btn-primary">Modifier</button>
+        <button class="btn btn-primary">Update</button>
     {{ form_end(form) }}
 </div>
 {% endblock %}

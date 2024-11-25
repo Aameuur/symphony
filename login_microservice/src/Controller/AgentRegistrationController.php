@@ -45,6 +45,35 @@ class AgentRegistrationController extends AbstractController
             'AgentRegistrationForm' => $form->createView(),
         ]);
     }
+    #[Route('/register-user', name: 'app_register_user')]
+    public function registerUser(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm(AgentRegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Encode the plain password
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            // Set the role to ROLE_AGENT for agent registration
+            $user->setRoles([User::ROLE_USER]);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        return $this->render('registration/register_user.html.twig', [
+            'AgentRegistrationForm' => $form->createView(),
+        ]);
+    }
     #[Route('/home', name: 'agent')]
     public function MAgent(UserRepository $userRepository): Response
     {
@@ -54,6 +83,19 @@ class AgentRegistrationController extends AbstractController
         });
 
         return $this->render('home/agents/index.html.twig', [
+            'users' => $agents,
+        ]);
+    }
+
+    #[Route('/dashboard', name: 'dashboard')]
+    public function index(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findAll();
+        $agents = array_filter($users, function($user) {
+            return in_array('ROLE_USER', $user->getRoles());
+        });
+        return $this->render('dashboard/index.html.twig', [
+            'controller_name' => 'DashboardController',
             'users' => $agents,
         ]);
     }
